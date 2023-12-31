@@ -1,5 +1,4 @@
 import { Inject } from "@nestjs/common";
-import { Logger } from "@nestjs/common";
 import { NacosConfigOptions } from "./interfaces/config.options";
 import { NACOS_CONFIG_OPTIONS } from "./config.constants";
 import { NacosConfigClient } from "nacos";
@@ -9,7 +8,9 @@ import { NacosConfigItemParams } from "./interfaces/config.item-params";
 export class NacosConfigService {
   private client: NacosConfigClient;
 
-  private logger = new Logger();
+  public get nacosClient() {
+    return this.client;
+  }
 
   private timeout = 0;
 
@@ -37,32 +38,20 @@ export class NacosConfigService {
    * @param subscribeDetail { NacosConfigSubscribeParams }
    */
   public subscribe({ dataId, group = "DEFAULT_GROUP", handler }: NacosConfigSubscribeParams) {
-    this.client.subscribe({ dataId, group }, (nextConfigContent: string) => {
-      try {
-        const config = JSON.parse(nextConfigContent);
-        handler(config);
-      } catch (exp) {
-        this.logger.error(exp.message || "nacos配置解析失败");
-      }
-    });
+    this.client.subscribe({ dataId, group }, handler);
   }
 
   /**
    * 获取配置
-   * @param param0
+   * @param item {NacosConfigItemParams}
    * @returns
    */
-  public async getConfig({
-    dataId,
-    group = "DEFAULT_GROUP",
-  }: NacosConfigItemParams): Promise<Record<PropertyKey, unknown> | null> {
+  public async getConfig({ dataId, group = "DEFAULT_GROUP" }: NacosConfigItemParams): Promise<string> {
     try {
-      const content = (await Promise.race([this.client.getConfig(dataId, group), this.timeoutTrigger()])) as string;
-      const config = JSON.parse(content);
-      return config as Promise<Record<PropertyKey, unknown>>;
+      const config = (await Promise.race([this.client.getConfig(dataId, group), this.timeoutTrigger()])) as string;
+      return config;
     } catch (exp) {
-      this.logger.error("初始化nacos配置解析失败，详细信息" + exp.message || "");
-      return null;
+      throw new Error("初始化nacos配置解析失败，详细信息" + exp.message || "");
     }
   }
 }

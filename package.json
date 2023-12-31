@@ -4,6 +4,7 @@
   "description": "the nacos integration in nestjs ",
   "main": "index.js",
   "scripts": {
+    "dev": "tsc -p tsconfig.json --watch",
     "build": "rimraf -rf dist && tsc -p tsconfig.json"
   },
   "repository": {
