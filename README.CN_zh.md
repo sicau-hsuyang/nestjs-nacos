@@ -5,7 +5,7 @@
 # 安装
 
 ```bash
-$ npm i --save nestjs-nacos;
+$ npm i --save nestjs-nacos
 ```
 
 # 使用

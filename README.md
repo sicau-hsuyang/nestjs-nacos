@@ -5,7 +5,7 @@ the nacos integration in nestjs
 # Installation
 
 ```bash
-$ npm i --save nestjs-nacos;
+$ npm i --save nestjs-nacos
 ```
 
 # Usage
