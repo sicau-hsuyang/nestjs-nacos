@@ -22,7 +22,9 @@ import { AppService } from "./app.service";
   imports: [
     NacosConfigModule.register({
       url: "xxx",
+      // the namesapce is optional
       namespace: "xxx",
+      // the timeout is optional, default 30000ms
       timeout: 4000,
     }),
   ],
@@ -44,7 +46,7 @@ export class AppService {
     this.nacosConfigService.subscribeKeyItem({
       dataId: "oss-config.development.json",
       // the group is optional
-      group: 'DEFAULT_GROUP',
+      group: "DEFAULT_GROUP",
       handler: (config: string) => {
         console.log(config);
       },
@@ -55,7 +57,7 @@ export class AppService {
     return this.nacosConfigService.getKeyItemConfig({
       dataId: "oss-config.development.json",
       // the group is optional
-      group: 'DEFAULT_GROUP',
+      group: "DEFAULT_GROUP",
     });
   }
 }

@@ -22,8 +22,10 @@ import { AppService } from "./app.service";
   imports: [
     NacosConfigModule.register({
       url: "xxx",
-      namespace: "xxx",
-      timeout: 4000,
+      // the namesapce is optional
+      // namespace: "xxx",
+      // the timeout is optional, default 30000ms
+      // timeout: 4000,
     }),
   ],
   controllers: [AppController],

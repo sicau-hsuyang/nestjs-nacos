@@ -1,6 +1,6 @@
 {
   "name": "nestjs-nacos",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "the nacos integration in nestjs",
   "main": "dist/config.module.js",
   "scripts": {
