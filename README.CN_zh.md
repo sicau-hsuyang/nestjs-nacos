@@ -1,16 +1,16 @@
-# Description
+# 介绍
 
-the nacos integration in nestjs
+在 `nestjs` 中集成 `nacos`
 
-# Installation
+# 安装
 
 ```bash
 $ npm i --save nestjs-nacos;
 ```
 
-# Usage
+# 使用
 
-register config module before use
+在模块中导入`NacosConfigModule`
 
 ```ts
 import { NacosConfigModule } from "nestjs-nacos";
@@ -32,7 +32,7 @@ import { AppService } from "./app.service";
 export class AppModule {}
 ```
 
-import service in your project
+在项目中引入`NacosConfigService`
 
 ```ts
 import { NacosConfigService } from "nestjs-nacos";
@@ -44,7 +44,7 @@ export class AppService {
     this.nacosConfigService.subscribeKeyItem({
       dataId: "oss-config.development.json",
       // the group is optional
-      group: 'DEFAULT_GROUP',
+      group: "DEFAULT_GROUP",
       handler: (config: string) => {
         console.log(config);
       },
@@ -55,7 +55,7 @@ export class AppService {
     return this.nacosConfigService.getKeyItemConfig({
       dataId: "oss-config.development.json",
       // the group is optional
-      group: 'DEFAULT_GROUP',
+      group: "DEFAULT_GROUP",
     });
   }
 }
@@ -63,7 +63,7 @@ export class AppService {
 
 # API
 
-initialize module options;
+初始化参数
 
 ```ts
 interface NacosConfigOptions {
@@ -82,7 +82,7 @@ interface NacosConfigOptions {
 }
 ```
 
-get config item or subscribe change
+获取数据或者订阅变化
 
 ```ts
 interface NacosConfigService {
