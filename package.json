@@ -11,6 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/sicau-hsuyang/nestjs-nacos.git"
   },
+  "files": [
+    "src",
+    "dist",
+    "tsconfig.json",
+    "README.md"
+  ],
   "keywords": [
     "nacos",
     "nestjs"

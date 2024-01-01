@@ -1,4 +1,4 @@
-export interface NacosConfigItemParams {
+export interface NacosConfigGetItemParams {
   /**
    * configId
    */

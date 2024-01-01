@@ -1,12 +1,14 @@
 import { Inject } from "@nestjs/common";
+import { NacosConfigClient } from "nacos";
 import { NacosConfigOptions } from "./interfaces/config.options";
 import { NACOS_CONFIG_OPTIONS } from "./config.constants";
-import { NacosConfigClient } from "nacos";
 import { NacosConfigSubscribeParams } from "./interfaces/config.subscrib-params";
-import { NacosConfigItemParams } from "./interfaces/config.item-params";
+import { NacosConfigGetItemParams } from "./interfaces/config.get-item-params";
 
 export class NacosConfigService {
   private client: NacosConfigClient;
+
+  private map: Map<string, string> = new Map();
 
   public get nacosClient() {
     return this.client;
@@ -37,16 +39,20 @@ export class NacosConfigService {
    * 监听nacos的变更
    * @param subscribeDetail { NacosConfigSubscribeParams }
    */
-  public subscribe({ dataId, group = "DEFAULT_GROUP", handler }: NacosConfigSubscribeParams) {
-    this.client.subscribe({ dataId, group }, handler);
+  public subscribeKeyItem({ dataId, group = "DEFAULT_GROUP", handler }: NacosConfigSubscribeParams) {
+    this.client.subscribe({ dataId, group }, (config: string) => {
+      const prevConfig = this.map.get(dataId) || null;
+      handler(config, prevConfig);
+      this.map.set(dataId, config);
+    });
   }
 
   /**
    * 获取配置
-   * @param item {NacosConfigItemParams}
+   * @param item {NacosConfigGetItemParams}
    * @returns
    */
-  public async getConfig({ dataId, group = "DEFAULT_GROUP" }: NacosConfigItemParams): Promise<string> {
+  public async getKeyItemConfig({ dataId, group = "DEFAULT_GROUP" }: NacosConfigGetItemParams): Promise<string> {
     try {
       const config = (await Promise.race([this.client.getConfig(dataId, group), this.timeoutTrigger()])) as string;
       return config;
