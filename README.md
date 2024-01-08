@@ -20,13 +20,17 @@ import { AppService } from "./app.service";
 
 @Module({
   imports: [
-    NacosConfigModule.register({
-      url: "xxx",
-      // the namesapce is optional
-      namespace: "xxx",
-      // the timeout is optional, default 30000ms
-      timeout: 4000,
-    }),
+    NacosConfigModule.register(
+      {
+        url: "xxx",
+        // the namesapce is optional
+        namespace: "xxx",
+        // the timeout is optional, default 30000ms
+        timeout: 4000,
+      },
+      // register nacos config module as a global module
+      true
+    ),
   ],
   controllers: [AppController],
   providers: [AppService],

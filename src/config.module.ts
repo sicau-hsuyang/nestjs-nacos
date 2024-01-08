@@ -4,8 +4,9 @@ import { NacosConfigOptions } from "./interfaces/config.options";
 import { NACOS_CONFIG_OPTIONS } from "./config.constants";
 
 export class NacosConfigModule {
-  static register(options: NacosConfigOptions): DynamicModule {
+  static register(options: NacosConfigOptions, isGlobal = true): DynamicModule {
     return {
+      global: isGlobal,
       module: NacosConfigModule,
       providers: [
         NacosConfigService,
